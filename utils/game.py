@@ -20,7 +20,7 @@ class Game:
         self.food = Food(self.screen)
         self.time = 0
         self.time_increment = 0.1
-        self.energy = QuantumEnergy()
+        self.energy = QuantumEnergy(self.time)
         
     def handle_input(self):
         for event in pygame.event.get():
