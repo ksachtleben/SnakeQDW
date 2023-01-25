@@ -20,7 +20,6 @@ class Game:
         self.food = Food(self.screen)
         self.time = 0
         self.time_increment = 0.1
-        self.energy = QuantumEnergy(self.time)
         
     def handle_input(self):
         for event in pygame.event.get():
@@ -39,6 +38,7 @@ class Game:
     def update(self):
         self.snake.move()
         self.time += self.time_increment
+        self.energy = QuantumEnergy(self.time)
         self.obstacle2.width = 600
         self.obstacle2.x =  750 + math.cos(self.time) * 150
         if self.snake.check_collision(self.food):
