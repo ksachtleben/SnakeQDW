@@ -1,15 +1,8 @@
 from utils.game import Game
 
-class GameController:
+class SnakeController:
     def __init__(self):
-        self._game: Game = Game()
+        self.game = Game()
 
-    def game(self):
-        
-        self._game.run()
-        
-        return {}
-        '''if collision:
-            return "Game Over. Final Score: {}".format(score)
-        else:
-            return {"snake_pos": snake_pos, "score": score}'''
+    def get_snake_game(self):
+        return self.game.get_game_screen()

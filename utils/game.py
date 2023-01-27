@@ -8,18 +8,25 @@ import math
 
 class Game:
     def __init__(self):
-        pygame.init()
-        self.width = 900
+        self.width = 800
         self.height = 300
-        self.screen = pygame.display.set_mode((self.width, self.height))
-        self.obstacle1 = Obstacle(self.screen, self.width // 2, self.height // 301)
-        self.obstacle2 = Obstacle(self.screen, self.width - 300, self.height // 301)
-        self.running = True
-        self.can_tunnel = False
-        self.snake = Snake(self.screen, self.can_tunnel)
-        self.food = Food(self.screen)
         self.time = 0
         self.time_increment = 0.1
+        self.running = True
+        self.can_tunnel = False
+        self.screen = None
+
+    
+    def get_game_screen(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.obstacle1 = Obstacle(self.screen, 0.25*self.width, self.height)
+        self.obstacle2 = Obstacle(self.screen, 5*self.width/8, self.height)
+        self.snake = Snake(self.screen, self.can_tunnel)
+        self.food = Food(self.screen)
+        self.run()
+        pygame.display.update()
+        return self.screen
         
     def handle_input(self):
         for event in pygame.event.get():
@@ -39,10 +46,11 @@ class Game:
         self.snake.move()
         self.time += self.time_increment
         self.energy = QuantumEnergy(self.time)
-        self.obstacle2.width = 600
-        self.obstacle2.x =  750 + math.cos(self.time) * 150
+        self.obstacle2.width = 500
+        self.obstacle2.x =  700 + math.cos(self.time/10) * 250
         if self.snake.check_collision(self.food):
             self.snake.grow()
+            self.snake.gainenergy()
             self.food.spawn()
         if not self.snake.check_collision_screen(self.width, self.height):
             self.running = False
@@ -68,8 +76,19 @@ class Game:
         while self.running:
             self.handle_input()
             self.update()
+            self.check_energy()
             self.draw()
-            self.energy.calc_energy()
             pygame.time.wait(50)
-        return 1,2,3
+        return self.screen
 
+    def check_energy(self):
+        d = self.energy.calc_energy()
+        values = list(d.values())
+        for i, j in zip(values, values[1:]):
+            if abs(j - i)/10 < 1 and i <= self.snake.energy <= j:
+                self.can_tunnel = True
+                self.snake.color = (204, 255, 51)
+                break
+        else:
+            self.can_tunnel = False
+            self.snake.color = (153, 153, 153)

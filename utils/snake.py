@@ -7,11 +7,12 @@ class Snake:
         self.can_tunnel = can_tunnel
         self.x = 0
         self.y = 0
-        self.color = (51, 255, 153)
+        self.color = (153, 153, 153)
         self.size = 5
         self.speed = 5
         self.direction = "right"
         self.body = [(self.x, self.y)]
+        self.energy = 0
 
 
     def move(self):
@@ -57,6 +58,9 @@ class Snake:
         elif dy == 1 and self.direction != "up":
             self.direction = "down"
     
+    def gainenergy(self):
+        self.energy += 1
+
     def grow(self):
         last_segment = self.body[-1]
         self.body.append(last_segment)    

@@ -1,11 +1,15 @@
 from fastapi import APIRouter
-from controllers.snake_controller import GameController
+from controllers.snake_controller import SnakeController
 
-def getSnake():
+
+def get_snake_game():
+
     router = APIRouter()
 
-    print('route')
+    snake_controller = SnakeController()
 
-    controller = GameController()
+    @router.get("/")
+    def get_snake_game():
+        return snake_controller.get_snake_game()
 
-    return controller.game()
+    return router

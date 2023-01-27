@@ -34,7 +34,7 @@ class QuantumEnergy():
         k1 = math.sqrt(self.v0 - e)
         k2 = math.sqrt(e)
         k3 = math.sqrt(self.v1 - e)
-        l2 = math.cos(self.time) * 150/self.ABA
+        l2 = 100/self.ABA + math.cos(self.time/10) * 50/self.ABA
 
         m = self.l0 + self.l1
         n = m + l2
@@ -145,5 +145,5 @@ class QuantumEnergy():
             if( f1*f2 <= 0 ):
                 enp[j] = round(self.RYMEV*self.zbrent(a , b),0)
                 j+=1
-            
+        print(enp)
         return enp
